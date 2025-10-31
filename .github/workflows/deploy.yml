@@ -28,6 +28,6 @@ jobs:
         with:
           # Use an explicit PAT if you set a secret named DEPLOY_TOKEN (required for private repos),
           # otherwise fall back to the automatically provided GITHUB_TOKEN for public repos.
-          github_token: ${{ secrets.DEPLOY_TOKEN || github.token }}
+          github_token: ${{ secrets.DEPLOY_TOKEN || secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: ./dist
