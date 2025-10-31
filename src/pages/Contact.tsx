@@ -1,20 +1,70 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { MapPin, Phone, Mail, Clock, Send, MessageCircle } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import React, { useMemo, useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { MapPin, Phone, Mail, Clock, Send, MessageCircle } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: ""
   });
   const { toast } = useToast();
+  const { t } = useI18n();
+
+  const infoCards = useMemo(
+    () => [
+      {
+        icon: MapPin,
+        title: t("contactPage.info.location.title"),
+        lines: t("contactPage.info.location.lines").split("\n")
+      },
+      {
+        icon: Phone,
+        title: t("contactPage.info.phone.title"),
+        lines: t("contactPage.info.phone.lines").split("\n")
+      },
+      {
+        icon: Mail,
+        title: t("contactPage.info.email.title"),
+        lines: t("contactPage.info.email.lines").split("\n")
+      },
+      {
+        icon: Clock,
+        title: t("contactPage.info.hours.title"),
+        lines: t("contactPage.info.hours.lines").split("\n")
+      }
+    ],
+    [t]
+  );
+
+  const faqItems = useMemo(
+    () => [
+      {
+        question: t("contactPage.faq.items.order.question"),
+        answer: t("contactPage.faq.items.order.answer")
+      },
+      {
+        question: t("contactPage.faq.items.delivery.question"),
+        answer: t("contactPage.faq.items.delivery.answer")
+      },
+      {
+        question: t("contactPage.faq.items.organic.question"),
+        answer: t("contactPage.faq.items.organic.answer")
+      },
+      {
+        question: t("contactPage.faq.items.tours.question"),
+        answer: t("contactPage.faq.items.tours.answer")
+      }
+    ],
+    [t]
+  );
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -28,17 +78,17 @@ const Contact = () => {
     e.preventDefault();
     // Here you would typically send the form data to your backend
     toast({
-      title: "Message Sent!",
-      description: "Thank you for contacting us. We'll get back to you within 24 hours.",
+      title: t("contactPage.form.successTitle"),
+      description: t("contactPage.form.successDescription")
     });
     
     // Reset form
     setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      subject: '',
-      message: ''
+      name: "",
+      email: "",
+      phone: "",
+      subject: "",
+      message: ""
     });
   };
 
@@ -48,9 +98,9 @@ const Contact = () => {
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl font-bold mb-6 text-primary">Contact Us</h1>
+            <h1 className="text-5xl font-bold mb-6 text-primary">{t("contactPage.hero.title")}</h1>
             <p className="text-xl text-muted-foreground mb-8">
-              Get in touch with UnityAgro for fresh produce, farm tours, or any questions about our sustainable farming practices
+              {t("contactPage.hero.description")}
             </p>
           </div>
         </div>
@@ -60,61 +110,21 @@ const Contact = () => {
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-            <Card className="text-center border-2 hover:border-primary transition-colors">
-              <CardHeader>
-                <MapPin className="h-8 w-8 mx-auto mb-2 text-primary" />
-                <CardTitle className="text-lg">Our Location</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground text-sm">
-                  123 Farm Road<br />
-                  Agricultural Valley<br />
-                  State 12345
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center border-2 hover:border-primary transition-colors">
-              <CardHeader>
-                <Phone className="h-8 w-8 mx-auto mb-2 text-primary" />
-                <CardTitle className="text-lg">Phone</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground text-sm">
-                  Main: +1 (555) 123-4567<br />
-                  Farm Tours: +1 (555) 123-4568<br />
-                  Orders: +1 (555) 123-4569
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center border-2 hover:border-primary transition-colors">
-              <CardHeader>
-                <Mail className="h-8 w-8 mx-auto mb-2 text-primary" />
-                <CardTitle className="text-lg">Email</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground text-sm">
-                  info@unityagro.com<br />
-                  orders@unityagro.com<br />
-                  tours@unityagro.com
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center border-2 hover:border-primary transition-colors">
-              <CardHeader>
-                <Clock className="h-8 w-8 mx-auto mb-2 text-primary" />
-                <CardTitle className="text-lg">Hours</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground text-sm">
-                  Mon-Fri: 7:00 AM - 6:00 PM<br />
-                  Sat: 8:00 AM - 4:00 PM<br />
-                  Sun: 9:00 AM - 3:00 PM
-                </p>
-              </CardContent>
-            </Card>
+            {infoCards.map(({ icon: Icon, title, lines }) => (
+              <Card key={title} className="text-center border-2 hover:border-primary transition-colors">
+                <CardHeader>
+                  <Icon className="h-8 w-8 mx-auto mb-2 text-primary" />
+                  <CardTitle className="text-lg">{title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-muted-foreground text-sm space-y-1">
+                    {lines.map((line, index) => (
+                      <div key={`${title}-${index}`}>{line}</div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
@@ -129,10 +139,10 @@ const Contact = () => {
                 <CardHeader>
                   <div className="flex items-center space-x-2">
                     <MessageCircle className="h-6 w-6 text-primary" />
-                    <CardTitle className="text-2xl">Send Us a Message</CardTitle>
+                    <CardTitle className="text-2xl">{t("contactPage.form.title")}</CardTitle>
                   </div>
                   <p className="text-muted-foreground">
-                    Fill out the form below and we'll get back to you within 24 hours
+                    {t("contactPage.form.description")}
                   </p>
                 </CardHeader>
                 <CardContent>
@@ -140,7 +150,7 @@ const Contact = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label htmlFor="name" className="text-sm font-medium block mb-2">
-                          Full Name *
+                          {t("contactPage.form.name")}
                         </label>
                         <Input
                           id="name"
@@ -149,12 +159,12 @@ const Contact = () => {
                           required
                           value={formData.name}
                           onChange={handleInputChange}
-                          placeholder="Your full name"
+                          placeholder={t("contactPage.form.namePlaceholder")}
                         />
                       </div>
                       <div>
                         <label htmlFor="phone" className="text-sm font-medium block mb-2">
-                          Phone Number
+                          {t("contactPage.form.phone")}
                         </label>
                         <Input
                           id="phone"
@@ -162,14 +172,14 @@ const Contact = () => {
                           type="tel"
                           value={formData.phone}
                           onChange={handleInputChange}
-                          placeholder="(555) 123-4567"
+                          placeholder={t("contactPage.form.phonePlaceholder")}
                         />
                       </div>
                     </div>
 
                     <div>
                       <label htmlFor="email" className="text-sm font-medium block mb-2">
-                        Email Address *
+                        {t("contactPage.form.email")}
                       </label>
                       <Input
                         id="email"
@@ -178,13 +188,13 @@ const Contact = () => {
                         required
                         value={formData.email}
                         onChange={handleInputChange}
-                        placeholder="your@email.com"
+                        placeholder={t("contactPage.form.emailPlaceholder")}
                       />
                     </div>
 
                     <div>
                       <label htmlFor="subject" className="text-sm font-medium block mb-2">
-                        Subject *
+                        {t("contactPage.form.subject")}
                       </label>
                       <Input
                         id="subject"
@@ -193,13 +203,13 @@ const Contact = () => {
                         required
                         value={formData.subject}
                         onChange={handleInputChange}
-                        placeholder="What is this regarding?"
+                        placeholder={t("contactPage.form.subjectPlaceholder")}
                       />
                     </div>
 
                     <div>
                       <label htmlFor="message" className="text-sm font-medium block mb-2">
-                        Message *
+                        {t("contactPage.form.message")}
                       </label>
                       <Textarea
                         id="message"
@@ -207,13 +217,13 @@ const Contact = () => {
                         required
                         value={formData.message}
                         onChange={handleInputChange}
-                        placeholder="Tell us about your inquiry, order details, or any questions you have..."
+                        placeholder={t("contactPage.form.messagePlaceholder")}
                         className="min-h-[120px]"
                       />
                     </div>
 
                     <Button type="submit" className="w-full" size="lg">
-                      Send Message
+                      {t("contactPage.form.submit")}
                       <Send className="ml-2 h-4 w-4" />
                     </Button>
                   </form>
@@ -225,9 +235,9 @@ const Contact = () => {
             <div className="animate-slide-up">
               <Card className="border-2 h-full">
                 <CardHeader>
-                  <CardTitle className="text-2xl">Find Our Farm</CardTitle>
+                  <CardTitle className="text-2xl">{t("contactPage.map.title")}</CardTitle>
                   <p className="text-muted-foreground">
-                    Visit us in person to see our sustainable farming practices firsthand
+                    {t("contactPage.map.description")}
                   </p>
                 </CardHeader>
                 <CardContent className="h-full">
@@ -235,26 +245,29 @@ const Contact = () => {
                     <div className="text-center">
                       <MapPin className="h-16 w-16 mx-auto mb-4 text-primary" />
                       <p className="text-muted-foreground">
-                        Interactive map would be embedded here<br />
-                        showing our farm location at:<br />
-                        <strong>123 Farm Road, Agricultural Valley</strong>
+                        {t("contactPage.map.placeholder")
+                          .split("\n")
+                          .map((line, index, arr) => (
+                            <span key={`${line}-${index}`} className="block">
+                              {index === arr.length - 1 ? <strong>{line}</strong> : line}
+                            </span>
+                          ))}
                       </p>
                     </div>
                   </div>
                   
                   <div className="mt-6 space-y-4">
                     <div className="p-4 bg-primary/10 rounded-lg">
-                      <h4 className="font-semibold text-primary mb-2">Directions</h4>
+                      <h4 className="font-semibold text-primary mb-2">{t("contactPage.map.directions.title")}</h4>
                       <p className="text-sm text-muted-foreground">
-                        Take Highway 45 North for 12 miles, turn right on Farm Road. 
-                        Look for the UnityAgro sign on your left after 2 miles.
+                        {t("contactPage.map.directions.description")}
                       </p>
                     </div>
                     
                     <div className="p-4 bg-accent/20 rounded-lg">
-                      <h4 className="font-semibold text-primary mb-2">Parking</h4>
+                      <h4 className="font-semibold text-primary mb-2">{t("contactPage.map.parking.title")}</h4>
                       <p className="text-sm text-muted-foreground">
-                        Free parking available on-site. Large vehicles and tour buses welcome.
+                        {t("contactPage.map.parking.description")}
                       </p>
                     </div>
                   </div>
@@ -270,60 +283,23 @@ const Contact = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 text-primary">Frequently Asked Questions</h2>
+              <h2 className="text-4xl font-bold mb-6 text-primary">{t("contactPage.faq.title")}</h2>
               <p className="text-lg text-muted-foreground">
-                Quick answers to common questions about our products and services
+                {t("contactPage.faq.description")}
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <Card className="border-2">
-                <CardHeader>
-                  <CardTitle className="text-lg">How do I place an order?</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground text-sm">
-                    You can place orders by calling us at (555) 123-4569, emailing orders@unityagro.com, 
-                    or visiting our farm in person. We recommend calling ahead for large orders.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-2">
-                <CardHeader>
-                  <CardTitle className="text-lg">Do you offer delivery?</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground text-sm">
-                    Yes! We offer local delivery within 25 miles of our farm. Delivery fees apply 
-                    based on distance and order size. Same-day delivery available for orders placed before 2 PM.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-2">
-                <CardHeader>
-                  <CardTitle className="text-lg">Are your products organic?</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground text-sm">
-                    Our vegetables are grown using organic practices without synthetic pesticides or fertilizers. 
-                    Our fish are raised naturally without hormones or antibiotics in clean, monitored environments.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-2">
-                <CardHeader>
-                  <CardTitle className="text-lg">How do I book a farm tour?</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground text-sm">
-                    Farm tours can be booked by calling (555) 123-4568 or emailing tours@unityagro.com. 
-                    We offer educational, family, and private tours. Advance booking recommended.
-                  </p>
-                </CardContent>
-              </Card>
+              {faqItems.map((item) => (
+                <Card key={item.question} className="border-2">
+                  <CardHeader>
+                    <CardTitle className="text-lg">{item.question}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground text-sm">{item.answer}</p>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </div>
         </div>
@@ -332,16 +308,16 @@ const Contact = () => {
       {/* CTA Section */}
       <section className="py-20 bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-6">Ready to Experience Fresh?</h2>
+          <h2 className="text-4xl font-bold mb-6">{t("contactPage.cta.title")}</h2>
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Contact us today to place your order or schedule a visit to our sustainable farm
+            {t("contactPage.cta.description")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" variant="secondary">
-              <a href="tel:+15551234567">Call Now: (555) 123-4567</a>
+              <a href="tel:+15551234567">{t("contactPage.cta.call")}</a>
             </Button>
             <Button asChild size="lg" variant="outline" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
-              <a href="mailto:info@unityagro.com">Email Us</a>
+              <a href="mailto:info@unityagro.com">{t("contactPage.cta.email")}</a>
             </Button>
           </div>
         </div>

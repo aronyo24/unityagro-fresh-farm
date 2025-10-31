@@ -1,91 +1,143 @@
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Fish, Carrot, Star, Calendar, Droplets } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import React, { useMemo } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Fish, Carrot, Star, Calendar, Droplets } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const Products = () => {
-  const fishProducts = [
-    {
-      name: "Premium Tilapia",
-      description: "Sweet, mild flavor with tender, flaky texture. Perfect for grilling, baking, or frying.",
-      features: ["Hormone-free", "Clean water raised", "2-3 lbs average"],
-      price: "Market Price",
-      availability: "Year-round",
-      image: "🐟"
-    },
-    {
-      name: "Fresh Catfish",
-      description: "Rich, distinctive flavor ideal for traditional Southern cooking and grilling.",
-      features: ["Wild taste", "Sustainably raised", "1-4 lbs average"],
-      price: "Market Price", 
-      availability: "Year-round",
-      image: "🐠"
-    }
-  ];
+  const { t } = useI18n();
 
-  const vegetables = [
-    {
-      name: "Organic Spinach",
-      description: "Fresh, tender leaves packed with nutrients. Perfect for salads, smoothies, and cooking.",
-      features: ["Pesticide-free", "Iron-rich", "Baby & mature leaves"],
-      season: "Spring, Fall",
-      image: "🥬"
-    },
-    {
-      name: "Vine Tomatoes",
-      description: "Juicy, flavorful tomatoes grown on the vine for maximum taste and nutrition.",
-      features: ["Heirloom varieties", "Vine-ripened", "Multiple sizes"],
-      season: "Summer, Fall",
-      image: "🍅"
-    },
-    {
-      name: "Crisp Cucumbers",
-      description: "Fresh, crunchy cucumbers perfect for salads, pickling, or healthy snacking.",
-      features: ["Burpless variety", "Organic grown", "6-8 inches"],
-      season: "Summer",
-      image: "🥒"
-    },
-    {
-      name: "Fresh Carrots",
-      description: "Sweet, tender carrots with vibrant color and excellent crunch.",
-      features: ["High beta-carotene", "Various sizes", "Storage variety"],
-      season: "Fall, Winter",
-      image: "🥕"
-    },
-    {
-      name: "Garden Lettuce",
-      description: "Crisp, fresh lettuce varieties including romaine, butterhead, and leaf lettuce.",
-      features: ["Multiple varieties", "Hydroponic option", "Year-round"],
-      season: "Year-round",
-      image: "🥗"
-    },
-    {
-      name: "Bell Peppers",
-      description: "Colorful, sweet peppers in red, yellow, and green varieties.",
-      features: ["High vitamin C", "Sweet variety", "Organic certified"],
-      season: "Summer, Fall",
-      image: "🫑"
-    }
-  ];
+  const fishProducts = useMemo(
+    () => [
+      {
+        image: "🐟",
+        name: t("productsPage.fish.items.tilapia.name"),
+        description: t("productsPage.fish.items.tilapia.description"),
+        features: [
+          t("productsPage.fish.items.tilapia.features.hormoneFree"),
+          t("productsPage.fish.items.tilapia.features.cleanWater"),
+          t("productsPage.fish.items.tilapia.features.weight")
+        ],
+        price: t("productsPage.fish.items.tilapia.price"),
+        availability: t("productsPage.fish.items.tilapia.availability")
+      },
+      {
+        image: "�",
+        name: t("productsPage.fish.items.catfish.name"),
+        description: t("productsPage.fish.items.catfish.description"),
+        features: [
+          t("productsPage.fish.items.catfish.features.taste"),
+          t("productsPage.fish.items.catfish.features.sustainable"),
+          t("productsPage.fish.items.catfish.features.weight")
+        ],
+        price: t("productsPage.fish.items.catfish.price"),
+        availability: t("productsPage.fish.items.catfish.availability")
+      }
+    ],
+    [t]
+  );
 
-  const herbs = [
-    {
-      name: "Fresh Basil",
-      description: "Aromatic sweet basil perfect for cooking, pesto, and garnishes.",
-      features: ["Multiple varieties", "Pesticide-free", "High oil content"],
-      season: "Spring, Summer",
-      image: "🌿"
-    },
-    {
-      name: "Garden Cilantro",
-      description: "Fresh cilantro with bold flavor perfect for Mexican and Asian cuisine.",
-      features: ["Slow-bolt variety", "Organic grown", "Roots included"],
-      season: "Fall, Winter, Spring",
-      image: "🌿"
-    }
-  ];
+  const vegetables = useMemo(
+    () => [
+      {
+        image: "🥬",
+        name: t("productsPage.vegetables.items.spinach.name"),
+        description: t("productsPage.vegetables.items.spinach.description"),
+        features: [
+          t("productsPage.vegetables.items.spinach.features.pesticideFree"),
+          t("productsPage.vegetables.items.spinach.features.iron"),
+          t("productsPage.vegetables.items.spinach.features.leaves")
+        ],
+        season: t("productsPage.vegetables.items.spinach.season")
+      },
+      {
+        image: "🍅",
+        name: t("productsPage.vegetables.items.tomatoes.name"),
+        description: t("productsPage.vegetables.items.tomatoes.description"),
+        features: [
+          t("productsPage.vegetables.items.tomatoes.features.heirloom"),
+          t("productsPage.vegetables.items.tomatoes.features.ripened"),
+          t("productsPage.vegetables.items.tomatoes.features.sizes")
+        ],
+        season: t("productsPage.vegetables.items.tomatoes.season")
+      },
+      {
+        image: "🥒",
+        name: t("productsPage.vegetables.items.cucumbers.name"),
+        description: t("productsPage.vegetables.items.cucumbers.description"),
+        features: [
+          t("productsPage.vegetables.items.cucumbers.features.burpless"),
+          t("productsPage.vegetables.items.cucumbers.features.organic"),
+          t("productsPage.vegetables.items.cucumbers.features.size")
+        ],
+        season: t("productsPage.vegetables.items.cucumbers.season")
+      },
+      {
+        image: "�",
+        name: t("productsPage.vegetables.items.carrots.name"),
+        description: t("productsPage.vegetables.items.carrots.description"),
+        features: [
+          t("productsPage.vegetables.items.carrots.features.beta"),
+          t("productsPage.vegetables.items.carrots.features.sizes"),
+          t("productsPage.vegetables.items.carrots.features.storage")
+        ],
+        season: t("productsPage.vegetables.items.carrots.season")
+      },
+      {
+        image: "�",
+        name: t("productsPage.vegetables.items.lettuce.name"),
+        description: t("productsPage.vegetables.items.lettuce.description"),
+        features: [
+          t("productsPage.vegetables.items.lettuce.features.varieties"),
+          t("productsPage.vegetables.items.lettuce.features.hydroponic"),
+          t("productsPage.vegetables.items.lettuce.features.yearRound")
+        ],
+        season: t("productsPage.vegetables.items.lettuce.season")
+      },
+      {
+        image: "�",
+        name: t("productsPage.vegetables.items.peppers.name"),
+        description: t("productsPage.vegetables.items.peppers.description"),
+        features: [
+          t("productsPage.vegetables.items.peppers.features.vitaminC"),
+          t("productsPage.vegetables.items.peppers.features.sweet"),
+          t("productsPage.vegetables.items.peppers.features.certified")
+        ],
+        season: t("productsPage.vegetables.items.peppers.season")
+      }
+    ],
+    [t]
+  );
+
+  const herbs = useMemo(
+    () => [
+      {
+        image: "🌿",
+        name: t("productsPage.herbs.items.basil.name"),
+        description: t("productsPage.herbs.items.basil.description"),
+        features: [
+          t("productsPage.herbs.items.basil.features.varieties"),
+          t("productsPage.herbs.items.basil.features.pesticideFree"),
+          t("productsPage.herbs.items.basil.features.oil")
+        ],
+        season: t("productsPage.herbs.items.basil.season")
+      },
+      {
+        image: "🌿",
+        name: t("productsPage.herbs.items.cilantro.name"),
+        description: t("productsPage.herbs.items.cilantro.description"),
+        features: [
+          t("productsPage.herbs.items.cilantro.features.slowBolt"),
+          t("productsPage.herbs.items.cilantro.features.organic"),
+          t("productsPage.herbs.items.cilantro.features.roots")
+        ],
+        season: t("productsPage.herbs.items.cilantro.season")
+      }
+    ],
+    [t]
+  );
 
   return (
     <div className="pt-16">
@@ -93,9 +145,9 @@ const Products = () => {
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl font-bold mb-6 text-primary">Our Products</h1>
+            <h1 className="text-5xl font-bold mb-6 text-primary">{t("productsPage.hero.title")}</h1>
             <p className="text-xl text-muted-foreground mb-8">
-              Fresh, high-quality fish and vegetables harvested daily from our sustainable farm
+              {t("productsPage.hero.description")}
             </p>
           </div>
         </div>
@@ -107,10 +159,10 @@ const Products = () => {
           <div className="text-center mb-16">
             <div className="flex items-center justify-center mb-6">
               <Fish className="h-12 w-12 text-primary mr-4" />
-              <h2 className="text-4xl font-bold text-primary">Fresh Fish</h2>
+              <h2 className="text-4xl font-bold text-primary">{t("productsPage.fish.title")}</h2>
             </div>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Our fish are raised in clean, monitored environments using sustainable aquaculture practices
+              {t("productsPage.fish.description")}
             </p>
           </div>
 
@@ -159,10 +211,10 @@ const Products = () => {
           <div className="text-center mb-16">
             <div className="flex items-center justify-center mb-6">
               <Carrot className="h-12 w-12 text-primary mr-4" />
-              <h2 className="text-4xl font-bold text-primary">Organic Vegetables</h2>
+              <h2 className="text-4xl font-bold text-primary">{t("productsPage.vegetables.title")}</h2>
             </div>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Seasonal vegetables grown using organic practices without harmful chemicals
+              {t("productsPage.vegetables.description")}
             </p>
           </div>
 
@@ -203,9 +255,9 @@ const Products = () => {
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6 text-primary">Fresh Herbs</h2>
+            <h2 className="text-4xl font-bold mb-6 text-primary">{t("productsPage.herbs.title")}</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Aromatic herbs grown fresh for cooking and garnishing
+              {t("productsPage.herbs.description")}
             </p>
           </div>
 
@@ -246,40 +298,32 @@ const Products = () => {
       <section className="py-20 bg-primary text-primary-foreground">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl font-bold mb-6">Quality & Freshness Guarantee</h2>
-            <p className="text-xl mb-12 opacity-90">
-              We stand behind every product that leaves our farm
-            </p>
+            <h2 className="text-4xl font-bold mb-6">{t("productsPage.quality.title")}</h2>
+            <p className="text-xl mb-12 opacity-90">{t("productsPage.quality.description")}</p>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="text-center">
                 <Droplets className="h-16 w-16 mx-auto mb-4 opacity-90" />
-                <h3 className="text-xl font-semibold mb-2">Harvest Fresh</h3>
-                <p className="opacity-80">
-                  Picked at peak ripeness and delivered within 24 hours
-                </p>
+                <h3 className="text-xl font-semibold mb-2">{t("productsPage.quality.harvest.title")}</h3>
+                <p className="opacity-80">{t("productsPage.quality.harvest.description")}</p>
               </div>
               
               <div className="text-center">
                 <Star className="h-16 w-16 mx-auto mb-4 opacity-90" />
-                <h3 className="text-xl font-semibold mb-2">Premium Quality</h3>
-                <p className="opacity-80">
-                  Only the finest products meet our strict quality standards
-                </p>
+                <h3 className="text-xl font-semibold mb-2">{t("productsPage.quality.premium.title")}</h3>
+                <p className="opacity-80">{t("productsPage.quality.premium.description")}</p>
               </div>
               
               <div className="text-center">
                 <Fish className="h-16 w-16 mx-auto mb-4 opacity-90" />
-                <h3 className="text-xl font-semibold mb-2">Sustainable Methods</h3>
-                <p className="opacity-80">
-                  Environmentally responsible farming practices
-                </p>
+                <h3 className="text-xl font-semibold mb-2">{t("productsPage.quality.sustainable.title")}</h3>
+                <p className="opacity-80">{t("productsPage.quality.sustainable.description")}</p>
               </div>
             </div>
 
             <div className="mt-12">
               <Button asChild size="lg" variant="secondary">
-                <Link to="/contact">Order Fresh Products</Link>
+                <Link to="/contact">{t("productsPage.quality.cta")}</Link>
               </Button>
             </div>
           </div>

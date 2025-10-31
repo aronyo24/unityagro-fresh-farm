@@ -1,12 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Leaf } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Menu, X, Leaf } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
+import { useI18n } from "@/i18n/I18nProvider";
+import type { Language } from "@/i18n/translations";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const { t, language, changeLanguage, availableLanguages } = useI18n();
 
   // Close mobile menu when route changes
   useEffect(() => {
@@ -23,12 +33,12 @@ const Navigation = () => {
   }, []);
 
   const navItems = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Services', path: '/services' },
-    { name: 'Products', path: '/products' },
-    { name: 'Testimonials', path: '/testimonials' },
-    { name: 'Contact', path: '/contact' },
+    { labelKey: "navigation.home", path: "/" },
+    { labelKey: "navigation.about", path: "/about" },
+    { labelKey: "navigation.services", path: "/services" },
+    { labelKey: "navigation.products", path: "/products" },
+    { labelKey: "navigation.testimonials", path: "/testimonials" },
+    { labelKey: "navigation.contact", path: "/contact" }
   ];
 
   const isActive = (path: string) =>
@@ -47,22 +57,42 @@ const Navigation = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 text-xl font-bold text-primary">
             <Leaf className="h-6 w-6" />
-            <span>UnityAgro</span>
+            <span>{t("common.brandName")}</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-8">
+          <div className="hidden md:flex items-center space-x-6">
+            <div className="flex space-x-8">
             {navItems.map((item) => (
               <Link
-                key={item.name}
+                key={item.path}
                 to={item.path}
                 className={`text-sm font-semibold transition-colors text-black  hover:text-primary ${
                   isActive(item.path) ? 'text-primary' : 'text-foreground'
                 }`}
               >
-                {item.name}
+                {t(item.labelKey)}
               </Link>
             ))}
+            </div>
+            <Select
+              value={language}
+              onValueChange={(value) => changeLanguage(value as Language)}
+            >
+              <SelectTrigger
+                className="w-32 border-muted/60"
+                aria-label={t("common.language.switchLabel")}
+              >
+                <SelectValue placeholder={t("common.language.switchLabel")} />
+              </SelectTrigger>
+              <SelectContent align="end">
+                {availableLanguages.map(({ code }) => (
+                  <SelectItem key={code} value={code}>
+                    {t(`common.language.${code}`)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Mobile Menu Button */}
@@ -73,7 +103,7 @@ const Navigation = () => {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"
-            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-label={isMenuOpen ? t("navigation.closeMenu") : t("navigation.openMenu")}
           >
             {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
@@ -86,16 +116,36 @@ const Navigation = () => {
           <div className="px-2 pt-2 pb-3 space-y-1">
             {navItems.map((item) => (
               <Link
-                key={item.name}
+                key={item.path}
                 to={item.path}
                 className={`block px-3 py-2 text-base font-medium transition-colors hover:text-primary ${
                   isActive(item.path) ? 'text-primary' : 'text-foreground'
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
-                {item.name}
+                {t(item.labelKey)}
               </Link>
             ))}
+            <div className="px-3 pt-4">
+              <Select
+                value={language}
+                onValueChange={(value) => changeLanguage(value as Language)}
+              >
+                <SelectTrigger
+                  className="w-full border-muted/60"
+                  aria-label={t("common.language.switchLabel")}
+                >
+                  <SelectValue placeholder={t("common.language.switchLabel")} />
+                </SelectTrigger>
+                <SelectContent>
+                  {availableLanguages.map(({ code }) => (
+                    <SelectItem key={code} value={code}>
+                      {t(`common.language.${code}`)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
       )}
